@@ -4,15 +4,40 @@
 
 dpkg -l | grep -qw gdebi || sudo apt-get install -yyq gdebi
 
-# Initial Software
+# Update the packages index and install dependencies
 
 sudo apt update
+sudo apt install software-properties-common apt-transport-https wget
+
+# Initial Software
 
 sudo apt install virtualbox virtualbox-guest-additions-iso virtualbox-ext-pack \
-net-tools htop lame git mc flatpak audacity \
+net-tools htop lame git mc flatpak terminator audacity \
 openssh-server sshfs gedit-plugin-text-size simplescreenrecorder nano \
 ubuntu-restricted-extras mpv vlc gthumb gnome-tweaks \
 gnome-tweak-tool qt5-style-plugins spell synaptic -yy
+
+# Install Sublime Text 3
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+echo "deb https://download.sublimetext.com/ apt/dev/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+sudo apt-get install sublime-text
+
+# Install VS Code
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+sudo apt update
+sudo apt install code
+
+# Install Slack Desktop App
+wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.deb
+sudo apt install ./slack-desktop-*.deb
+rm slack-desktop-*.deb
+
+# Install Zoom Desktop App
+wget https://zoom.us/client/latest/zoom_amd64.deb
+sudo apt install ./zoom_amd64.deb
+rm zoom_amd64.deb
 
 # Add me to any groups I might need to be a part of:
 
@@ -40,6 +65,9 @@ if [ -d "/home/$USER/.cache/mozilla" ]; then
 fi
 
 sudo apt install chromium-browser
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
 
 gsettings set com.ubuntu.update-notifier show-livepatch-status-icon false
 #set icons to minimize on click
